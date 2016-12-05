@@ -2,9 +2,9 @@ import sys
 import requests
 #print ("hi")
 
-def querey_data():
+def querey_data(rsid):
 
-    rs_id  = sys.argv[1]
+    rs_id  = rsid
     print ("input rs_id is : "+rs_id)
     api_id = "http://myvariant.info/v1/query?q="+rs_id
     result = requests.get(api_id)
@@ -76,7 +76,7 @@ def querey_data():
     print (jake)
 
 
-querey_data()
+querey_data("rs17822931")
     
  # hd38 {start-end: "123-456"}
 # end and start benign, 
