@@ -4,7 +4,7 @@
 		<div class="column">
 	  		<select id="selectFilterName" class="ui search dropdown">
 				<option value="">{% if check_keyword %} {{ check_keyword }} {% else %} Filter By Level Name {% endif %}</option>
-				<option value="none">None</option>
+				<option value="all_levels">All Levels</option>
 			  	<option value="chromosome_number_variation">chromosome_number_variation</option>
 				<option value="exon_loss_variant">exon_loss_variant</option>
 				<option value="frameshift_variant">frameshift_variant</option>
@@ -80,6 +80,7 @@
 			<tr>
 				<th>RsId</th>
 				<th>Summary</th>
+				<th>Level Name</th>
 				<th>Chromosome #</th>
 				<th>EUR_AF</th>
 				<th>SAS_AF</th>
@@ -99,6 +100,7 @@
 					<td>{{ rsid[5] }}</td>
 					<td>{{ rsid[6] }}</td>
 					<td>{{ rsid[7] }}</td>
+					<td>{{ rsid[8] }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>

@@ -131,7 +131,12 @@ def uploaded_file_levelName(filename, check_keyword, index):
             flash("Invalid file extension")
             return redirect(request.url)
     chrNums = getrsIDfromVCFFile("uploads/"+filename)
-    rsids = parseAnnotation.getrsIDfromVCFFile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf", "order_annotations.txt", check_keyword=check_keyword, get_pop=True)
+    every=False
+    origCheckKeyword = check_keyword
+    if(check_keyword == "all_levels"):
+        check_keyword = ""
+        every = True
+    rsids = parseAnnotation.getrsIDfromVCFFile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf", "order_annotations.txt", check_keyword=check_keyword, get_pop=True, every=every)
     if(rsids.keys() == []):
         flash(filename + " does not contain the keyword " + check_keyword)
         return redirect(url_for('uploaded_file', filename=filename, index=index))
@@ -141,6 +146,7 @@ def uploaded_file_levelName(filename, check_keyword, index):
             rsRes = []
             rsRes.append(rsTuple[0])
             rsRes.append(None)
+            rsRes.append(rsTuple[1])
             rsRes.append(chromosome)
             if "EUR_AF" in rsTuple[2]:
                 rsRes.append(rsTuple[2]["EUR_AF"])
@@ -177,7 +183,7 @@ def uploaded_file_levelName(filename, check_keyword, index):
     canPrev = int(index) > 0
     canPrev2 = int(index) > 1
     print(currRsids)
-    return render_template("view_level.html", check_keyword=check_keyword, type="_levelName", index=int(index), filename=filename, rsids=currRsids, numPages=numPages, canNext=canNext, canPrev=canPrev, canPrev2=canPrev2, canNext2=canNext2)
+    return render_template("view_level.html", check_keyword=origCheckKeyword, type="_levelName", index=int(index), filename=filename, rsids=currRsids, numPages=numPages, canNext=canNext, canPrev=canPrev, canPrev2=canPrev2, canNext2=canNext2)
 
 @app.route('/num/<filename>/<order_level>/<index>', methods=["GET", "POST"])
 def uploaded_file_levelNum(filename, order_level, index):
@@ -212,6 +218,7 @@ def uploaded_file_levelNum(filename, order_level, index):
             rsRes = []
             rsRes.append(rsTuple[0])
             rsRes.append(None)
+            rsRes.append(rsTuple[1])
             rsRes.append(chromosome)
             if "EUR_AF" in rsTuple[2]:
                 rsRes.append(rsTuple[2]["EUR_AF"])
