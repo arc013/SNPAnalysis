@@ -76,7 +76,7 @@ def querey_data(rsid):
     print (jake)
 
 
-querey_data("rs17822931")
+#querey_data("rs17822931")
     
  # hd38 {start-end: "123-456"}
 # end and start benign, 
