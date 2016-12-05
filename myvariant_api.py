@@ -58,12 +58,25 @@ def querey_data(rsid):
         for i in grasp_object:
             pmid_array.append(i["pmid"])
         jake["publication_pmid"]=pmid_array
+    if evs_i != -1:
+        if "clinical_info" in hits[evs_i]["evs"]:
+            jake["evs_clinical_info"] =  hits[evs_i]["evs"]["clinical_info"]
+
+
+
+   # print (hits[cadd_i]["cadd"])
     if cadd_i != -1:
         
         if "gene" in hits[cadd_i]["cadd"]:
           #  print ("does it print")
             cadd_gene = {}
-            for i in hits[cadd_i]["cadd"]["gene"]:
+            gene_dict = hits[cadd_i]["cadd"]["gene"]
+            if isinstance(hits[cadd_i]["cadd"]["gene"], dict):
+                gene_dict = [hits[cadd_i]["cadd"]["gene"]]
+
+
+
+            for i in gene_dict:
                 if "feature_id" in i:
                     cadd_gene["feature_id"]=i["feature_id"]
                 if "gene_id" in i:
@@ -72,13 +85,14 @@ def querey_data(rsid):
                     cadd_gene["genename"]=i["genename"]
             jake["cadd_gene"] = cadd_gene
 
-    if evs_i != -1:
-        if "clinical_info" in hits[evs_i]["evs"]:
-            jake["evs_clinical_info"] =  hits[evs_i]["evs"]["clinical_info"]
+   
                 
     print (jake)
     return jake
 
+
+#querey_data("rs17822931")
+    
  # hd38 {start-end: "123-456"}
 # end and start benign, 
 # variant_id,
