@@ -75,11 +75,12 @@
 	      	</div>
 	    </div>
 	</div>
-	<table class="ui selectable celled table">
+	<table class="ui selectable celled table sortable">
 		<thead>
 			<tr>
 				<th>RsId</th>
 				<th>Summary</th>
+				<th>Chromosome #</th>
 				<th>EUR_AF</th>
 				<th>SAS_AF</th>
 				<th>AFR_AF</th>
@@ -97,6 +98,7 @@
 					<td>{{ rsid[4] }}</td>
 					<td>{{ rsid[5] }}</td>
 					<td>{{ rsid[6] }}</td>
+					<td>{{ rsid[7] }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -155,6 +157,7 @@
 	$(document).ready(function(){
 		$(".dropdown").dropdown({"placeholder": "asdf"})
 		$("#filterDiv").show()
+		$('table').tablesort()
 	})
 	$("select").on("change", function(){
 		$('table').dimmer('show');

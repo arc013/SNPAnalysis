@@ -59,7 +59,6 @@ def main():
 
 def getSummary(rsid):
     res = myvariant_api.querey_data(rsid)
-    print(res)
     toReturn = "No condition information available"
     if res == None:
         return toReturn
@@ -96,16 +95,12 @@ def uploaded_file(filename, index):
     rsidsDict = {}
     for chromosome, rsids in chrNums.items():
         for rsid in rsids:
-            rsidsDict[rsid] = True
+            rsidsDict[(rsid, chromosome)] = True
     rsids = rsidsDict.keys()
     
     numPages = int(math.ceil(len(rsids)/50))
-    print(len(rsids))
     currRsids = rsids[int(index)*50:int(index)*50+50]
-    print("CURR RSIDS LEN:")
-    print(len(currRsids))
-    currRsids = [[rsid, getSummary(rsid)] for rsid in currRsids]
-    print(currRsids)
+    currRsids = [[rsid[0], rsid[1], getSummary(rsid[0])] for rsid in currRsids]
     canNext = int(index) < numPages
     canNext2 = int(index) < numPages-1
     canPrev = int(index) > 0
@@ -146,6 +141,7 @@ def uploaded_file_levelName(filename, check_keyword, index):
             rsRes = []
             rsRes.append(rsTuple[0])
             rsRes.append(None)
+            rsRes.append(chromosome)
             if "EUR_AF" in rsTuple[2]:
                 rsRes.append(rsTuple[2]["EUR_AF"])
             else:
@@ -207,7 +203,6 @@ def uploaded_file_levelNum(filename, order_level, index):
     if(order_level == "none"):
         order_level = 46
     rsids = parseAnnotation.getrsIDfromVCFFile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf", "order_annotations.txt", order_level=int(order_level), get_pop=True)
-    print(rsids)
     if(rsids.keys() == []):
         flash(filename + " does not contain the order level " + order_level)
         return redirect(url_for('uploaded_file', filename=filename, index=index))
@@ -217,6 +212,7 @@ def uploaded_file_levelNum(filename, order_level, index):
             rsRes = []
             rsRes.append(rsTuple[0])
             rsRes.append(None)
+            rsRes.append(chromosome)
             if "EUR_AF" in rsTuple[2]:
                 rsRes.append(rsTuple[2]["EUR_AF"])
             else:
@@ -239,7 +235,6 @@ def uploaded_file_levelNum(filename, order_level, index):
                 rsRes.append(0)
             rsResList.append(rsRes)
     rsids = rsResList
-    print(rsids[0])
     
     numPages = int(math.ceil(len(rsids)/50))
     currRsids = rsids[int(index)*50:int(index)*50+50]
@@ -250,7 +245,6 @@ def uploaded_file_levelNum(filename, order_level, index):
     canNext2 = int(index) < numPages-1
     canPrev = int(index) > 0
     canPrev2 = int(index) > 1
-    print(currRsids)
     return render_template("view_level.html", order_level=order_level, type="_levelNum", index=int(index), filename=filename, rsids=currRsids, numPages=numPages, canNext=canNext, canPrev=canPrev, canPrev2=canPrev2, canNext2=canNext2)
 
 

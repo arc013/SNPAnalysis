@@ -68,10 +68,11 @@
 		</div>
 	{% endif %}
 	
-	<table class="ui selectable celled table">
+	<table class="ui selectable celled table sortable">
 		<thead>
 			<tr>
 				<th>RsId</th>
+				<th>Chromosome #</th>
 				<th>Summary</th>
 				<!--<th>#CHROM</th>
 				<th>POS</th>
@@ -89,6 +90,7 @@
 				<tr>
 					<td><a href="{{ url_for('getPubs', rsid=rsid[0]) }}">{{ rsid[0] }}</a></td>
 					<td>{{ rsid[1] }}</td>
+					<td>{{ rsid[2] }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -125,6 +127,7 @@
 	$(document).ready(function(){
 		$(".dropdown").dropdown()
 		$("#filterDiv").show()
+		$('table').tablesort()
 	})
 	$("select").on("change", function(){
 		$('table').dimmer('show');
