@@ -7,3 +7,8 @@ download reference from : https://sourceforge.net/projects/snpeff/files/database
 unzip both files in the SNPAnalysis folder
 
 RUN THE install.sh instead of the above
+
+To Run:
+python main.py 
+
+The input test file you need to upload: HG00099.vcf 
