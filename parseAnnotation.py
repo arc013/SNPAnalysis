@@ -201,8 +201,6 @@ if __name__ == "__main__":
     #chrNums = getrsIDfromVCFFile(vcf_file, keywords_file, order_level=10, get_pop=True)
     #chrNums = getrsIDfromVCFFile(vcf_file, keywords_file, every=True)
     chrNums = getrsIDfromVCFFile(vcf_file, keywords_file)
-    if len(chrNums.keys()) != 0:
-        print chrNums['22']
     """
     print Annotation_Impacts.keys()
     print Gene_INFOs.keys()

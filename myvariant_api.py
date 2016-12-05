@@ -1,9 +1,7 @@
 import sys
 import requests
-#print ("hi")
 
 def querey_data(rsid):
-
     rs_id  = rsid
     api_id = "http://myvariant.info/v1/query?q="+rs_id
     result = requests.get(api_id)
@@ -20,13 +18,11 @@ def querey_data(rsid):
         if "grasp" in hits[i]:
             grasp_i = i
         if "cadd" in hits[i]:
-          #  print (" cadd is here")
             cadd_i = i
         if "evs" in hits[i]:
             evs_i = i
     if index == -1:
         return 
- 
     jake = {}
     clinvar_object = hits[index]["clinvar"]
     if "hg38" in clinvar_object:
@@ -42,8 +38,6 @@ def querey_data(rsid):
         rcv_array = clinvar_object["rcv"]
         if isinstance(rcv_array, dict):
                 rcv_array = [clinvar_object["rcv"]]
-
-       # print (rcv_array)
         for i in rcv_array:
             jake["disease_association"]=[]
             condition = {}
@@ -68,21 +62,13 @@ def querey_data(rsid):
     if evs_i != -1:
         if "clinical_info" in hits[evs_i]["evs"]:
             jake["evs_clinical_info"] =  hits[evs_i]["evs"]["clinical_info"]
-
-
-
-   # print (hits[cadd_i]["cadd"])
     if cadd_i != -1:
-        
         if "gene" in hits[cadd_i]["cadd"]:
           #  print ("does it print")
             cadd_gene = {}
             gene_dict = hits[cadd_i]["cadd"]["gene"]
             if isinstance(hits[cadd_i]["cadd"]["gene"], dict):
                 gene_dict = [hits[cadd_i]["cadd"]["gene"]]
-
-
-
             for i in gene_dict:
                 if "feature_id" in i:
                     cadd_gene["feature_id"]=i["feature_id"]
@@ -91,17 +77,4 @@ def querey_data(rsid):
                 if "genename" in i:
                     cadd_gene["genename"]=i["genename"]
             jake["cadd_gene"] = cadd_gene
-
-   
-                
-    print (jake)
     return jake
-
-
- # hd38 {start-end: "123-456"}
-# end and start benign, 
-# variant_id,
-#cyogenic,
-#allele_id,
-
-# clinical_significance,, accession, name, identifiers, 

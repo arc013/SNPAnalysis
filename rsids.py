@@ -43,7 +43,6 @@ while True:
 	rsCount += 1
 	canContinue, rsIds = getRsIds(prevRs, rsIds)
 	prevRs = "Rs" + str(int(rsIds[-1][2:])+1)
-	print(prevRs)
 	if(rsCount % 500 == 499):
 		writeToFile(rsIds)
 		rsIds = []

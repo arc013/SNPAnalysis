@@ -176,10 +176,6 @@ def uploaded_file_levelName(filename, check_keyword, index):
                 rsRes.append(0)
             rsResList.append(rsRes)
     rsids = rsResList
-
-    # for i, rsid in enumerate(rsids):
-    #     if rsid[0].title() in summaries:
-    #         rsids[i][1] = summaries[rsid[0].title()][0]
     numPages = int(math.ceil(len(rsids)/50))
     currRsids = rsids[int(index)*50:int(index)*50+50]
     for i, res in enumerate(currRsids):
@@ -188,7 +184,6 @@ def uploaded_file_levelName(filename, check_keyword, index):
     canNext2 = int(index) < numPages-1
     canPrev = int(index) > 0
     canPrev2 = int(index) > 1
-    print(currRsids)
     return render_template("view_level.html", check_keyword=origCheckKeyword, type="_levelName", index=int(index), filename=filename, rsids=currRsids, numPages=numPages, canNext=canNext, canPrev=canPrev, canPrev2=canPrev2, canNext2=canNext2)
 
 @app.route('/num/<filename>/<order_level>/<index>', methods=["GET", "POST"])
@@ -297,11 +292,9 @@ def getPubs(rsid):
         del dictionary["disease_association"]
     for key, val in dictionary.items():
         if type(val) == dict:
-            print(dictionary)
             dictionary[key] = ", ".join([key2+"="+val2 for key2, val2 in val.items()])
     summary = getSummary(rsid)
     snpRes = getSnpedia(rsid)
-    print(snpRes)
     if rsid.title() in summaries:
         if summaries[rsid.title()] != []:
             summary = summaries[rsid.title()][0]
