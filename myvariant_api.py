@@ -5,7 +5,6 @@ import requests
 def querey_data(rsid):
 
     rs_id  = rsid
-    print ("input rs_id is : "+rs_id)
     api_id = "http://myvariant.info/v1/query?q="+rs_id
     result = requests.get(api_id)
     hits = result.json()["hits"] #an array
@@ -99,8 +98,6 @@ def querey_data(rsid):
     return jake
 
 
-querey_data("rs20551")
-    
  # hd38 {start-end: "123-456"}
 # end and start benign, 
 # variant_id,

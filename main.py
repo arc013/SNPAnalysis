@@ -64,8 +64,11 @@ def getSummary(rsid):
         return toReturn
     if "disease_association" in res:
         assoc = res["disease_association"]
-        if assoc != []:
+        if type(assoc) == list and assoc != []:
+            toReturn = assoc[0]["condition"]
+        elif "condition" in toReturn:
             toReturn = assoc["condition"]
+
     return toReturn
 
 @app.route('/<filename>/<index>', methods=["GET", "POST"])
@@ -94,10 +97,14 @@ def uploaded_file(filename, index):
         for rsid in rsids:
             rsidsDict[rsid] = True
     rsids = rsidsDict.keys()
-    rsids = [[rsid, getSummary(rsid)] for rsid in rsids if rsid.title() in snps]
-
+    
     numPages = int(math.ceil(len(rsids)/50))
+    print(len(rsids))
     currRsids = rsids[int(index)*50:int(index)*50+50]
+    print("CURR RSIDS LEN:")
+    print(len(currRsids))
+    currRsids = [[rsid, getSummary(rsid)] for rsid in currRsids]
+    print(currRsids)
     canNext = int(index) < numPages
     canNext2 = int(index) < numPages-1
     canPrev = int(index) > 0
@@ -137,8 +144,7 @@ def uploaded_file_levelName(filename, check_keyword, index):
         for rsTuple in val:
             rsRes = []
             rsRes.append(rsTuple[0])
-            if rsTuple[0].title() in summaries:
-                rsRes.append(summaries[rsid[0].title()][0])
+            rsRes.append(None)
             if "EUR_AF" in rsTuple[2]:
                 rsRes.append(rsTuple[2]["EUR_AF"])
             else:
@@ -161,12 +167,14 @@ def uploaded_file_levelName(filename, check_keyword, index):
                 rsRes.append(0)
             rsResList.append(rsRes)
     rsids = rsResList
-    # rsids = [[rsid, None] for rsid in rsids if rsid.title() in snps]
+
     # for i, rsid in enumerate(rsids):
     #     if rsid[0].title() in summaries:
     #         rsids[i][1] = summaries[rsid[0].title()][0]
     numPages = int(math.ceil(len(rsids)/50))
     currRsids = rsids[int(index)*50:int(index)*50+50]
+    for i, res in enumerate(currRsids):
+        currRsids[i][1] = getSummary(res[0].title())
     canNext = int(index) < numPages
     canNext2 = int(index) < numPages-1
     canPrev = int(index) > 0
@@ -198,6 +206,7 @@ def uploaded_file_levelNum(filename, order_level, index):
     if(order_level == "none"):
         order_level = 46
     rsids = parseAnnotation.getrsIDfromVCFFile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf", "order_annotations.txt", order_level=int(order_level), get_pop=True)
+    print(rsids)
     if(rsids.keys() == []):
         flash(filename + " does not contain the order level " + order_level)
         return redirect(url_for('uploaded_file', filename=filename, index=index))
@@ -206,9 +215,7 @@ def uploaded_file_levelNum(filename, order_level, index):
         for rsTuple in val:
             rsRes = []
             rsRes.append(rsTuple[0])
-            rsRes.append(rsTuple[0])
-            if rsTuple[0].title() in summaries:
-                rsRes.append(summaries[rsid[0].title()][0])
+            rsRes.append(None)
             if "EUR_AF" in rsTuple[2]:
                 rsRes.append(rsTuple[2]["EUR_AF"])
             else:
@@ -231,12 +238,13 @@ def uploaded_file_levelNum(filename, order_level, index):
                 rsRes.append(0)
             rsResList.append(rsRes)
     rsids = rsResList
-    # rsids = [[rsid, None] for rsid in rsids if rsid.title() in snps]
-    # for i, rsid in enumerate(rsids):
-    #     if rsid[0].title() in summaries:
-    #         rsids[i][1] = summaries[rsid[0].title()][0]
+    print(rsids[0])
+    
     numPages = int(math.ceil(len(rsids)/50))
     currRsids = rsids[int(index)*50:int(index)*50+50]
+    for i, res in enumerate(currRsids):
+        currRsids[i][1] = getSummary(res[0].title())
+
     canNext = int(index) < numPages
     canNext2 = int(index) < numPages-1
     canPrev = int(index) > 0
@@ -277,6 +285,10 @@ def getPubs(rsid):
             if "identifiers" in disease:
                 assoc[i]["identifiers"] = ", ".join([key+"="+val for key, val in disease["identifiers"].items()])
         del dictionary["disease_association"]
+    for key, val in dictionary.items():
+        if type(val) == dict:
+            print(dictionary)
+            dictionary[key] = ", ".join([key2+"="+val2 for key2, val2 in val.items()])
     return render_template("pubs.html", rsid=rsid, pubs=pubs, d=dictionary, assoc=assoc)
 
 def readSnps():

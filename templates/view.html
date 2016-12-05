@@ -130,6 +130,7 @@
 		if($(this).attr("id") == "selectFilterName"){
 			window.location.href = "{{url_for('uploaded_file_levelName', filename=filename,index=0,check_keyword='CHECK_KEYWORD')}}".replace('CHECK_KEYWORD',$(this)[0].value)
 		} else if ($(this).attr("id") == "selectFilterNum"){
+			console.log("Checking filter num")
 			window.location.href = "{{url_for('uploaded_file_levelNum', filename=filename,index=0,order_level='ORDER_NUM')}}".replace('ORDER_NUM',$(this)[0].value)
 		}
 	})

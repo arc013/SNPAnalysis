@@ -19,15 +19,13 @@
 	<table class="ui selectable celled table">
 		<thead>
 			<tr>
-				<th>Title</th>
-				<th>Link</th>\
+				<th>Variation Viewer</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for pub in pubs %}
 				<tr>
-					<td>Publication Link:</td>
-					<td><a href="{{pub}}">PMID {{pub.id}}<a></td>
+					<td><a href="{{pub}}">Link<a></td>
 				</tr>
 			{% endfor %}
 		</tbody>
