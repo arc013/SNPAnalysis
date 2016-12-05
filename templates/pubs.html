@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
+	<h3>{{ summary }}</h3>
 	<table class="ui selectable celled table">
 		<thead>
 			<tr>
@@ -12,20 +13,6 @@
 				<tr>
 					<td>{{ key }}</td>
 					<td>{{ val }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<table class="ui selectable celled table">
-		<thead>
-			<tr>
-				<th>Variation Viewer</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for pub in pubs %}
-				<tr>
-					<td><a href="{{pub}}">Link<a></td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -50,6 +37,35 @@
 			</tbody>
 		</table>
 	{% endif %}
+	<table class="ui selectable celled table">
+		<thead>
+			<tr>
+				<th>Publications</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for pub in pmed %}
+				<tr>
+					<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/{{pub}}?dopt=Abstract">PMID {{pub}}<a></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<table class="ui selectable celled table">
+		<thead>
+			<tr>
+				<th>Variation Viewer</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for pub in pubs %}
+				<tr>
+					<td><a href="{{pub}}">Link<a></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='semantic.min.js') }}"></script>
 {% endblock %}

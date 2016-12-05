@@ -30,7 +30,7 @@ def getrsIDfromVCFFile(filename):
                 chrNums[chrNum] = [rsID]
             else:
                 chrNums[chrNum].append(rsID)
-    #print chrNums.keys()
+    #
     return chrNums
         
 	
@@ -38,7 +38,6 @@ if __name__ == "__main__":
     vcf_file = sys.argv[1]
     rsIDs_by_chr = getrsIDfromVCFFile(vcf_file)
     for geneId in rsIDs_by_chr['22']:
-        print 'http://www.snpedia.com/index.php/'+geneId
         r = urllib.urlopen('http://www.snpedia.com/index.php/'+geneId).read()
         
         soup = BeautifulSoup(r, "html.parser")
@@ -49,7 +48,7 @@ if __name__ == "__main__":
         #writeFile("genes/"+geneId+"_genos.csv", ["geno", "mag", "summary"], genos)
         pubs = getPubs(soup, True)
         #writeFile("genes/"+geneId+"_pubs.csv", "wb", "utf-8", ["id", "title"], pubs)
-        print genos
-        print genos
+        
+        
         #break 
     

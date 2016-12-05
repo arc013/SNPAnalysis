@@ -59,6 +59,7 @@ def main():
 
 def getSummary(rsid):
     res = myvariant_api.querey_data(rsid)
+    print(res)
     toReturn = "No condition information available"
     if res == None:
         return toReturn
@@ -289,7 +290,19 @@ def getPubs(rsid):
         if type(val) == dict:
             print(dictionary)
             dictionary[key] = ", ".join([key2+"="+val2 for key2, val2 in val.items()])
-    return render_template("pubs.html", rsid=rsid, pubs=pubs, d=dictionary, assoc=assoc)
+    summary = getSummary(rsid)
+    snpRes = getSnpedia(rsid)
+    print(snpRes)
+    if rsid.title() in summaries:
+        if summaries[rsid.title()] != []:
+            summary = summaries[rsid.title()][0]
+    if snpRes and "genos" in snpRes and snpRes["genos"] != [] and "summary" in snpRes["genos"][0]:
+        summary = snpRes["genos"][0]["summary"]
+    pmed = []
+    if "publication_pmid" in dictionary:
+        pmed = dictionary["publication_pmid"]
+        del dictionary["publication_pmid"]
+    return render_template("pubs.html", rsid=rsid, pubs=pubs, d=dictionary, assoc=assoc, summary=summary, pmed=pmed)
 
 def readSnps():
     list_files = get_files('all_rsids/')
