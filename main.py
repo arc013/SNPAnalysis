@@ -57,6 +57,17 @@ def main():
     else:
         return render_template('main.html')
 
+def getSummary(rsid):
+    res = myvariant_api.querey_data(rsid)
+    toReturn = "No condition information available"
+    if res == None:
+        return toReturn
+    if "disease_association" in res:
+        assoc = res["disease_association"]
+        if assoc != []:
+            toReturn = assoc["condition"]
+    return toReturn
+
 @app.route('/<filename>/<index>', methods=["GET", "POST"])
 def uploaded_file(filename, index):
     if request.method == "POST":
@@ -83,10 +94,8 @@ def uploaded_file(filename, index):
         for rsid in rsids:
             rsidsDict[rsid] = True
     rsids = rsidsDict.keys()
-    rsids = [[rsid, None] for rsid in rsids if rsid.title() in snps]
-    for i, rsid in enumerate(rsids):
-        if rsid[0].title() in summaries:
-            rsids[i][1] = summaries[rsid[0].title()][0]
+    rsids = [[rsid, getSummary(rsid)] for rsid in rsids if rsid.title() in snps]
+
     numPages = int(math.ceil(len(rsids)/50))
     currRsids = rsids[int(index)*50:int(index)*50+50]
     canNext = int(index) < numPages
