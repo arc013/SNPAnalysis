@@ -3,7 +3,7 @@
 	<div id="filterDiv" class="ui segment two column very relaxed grid center aligned" style="display: none">
 		<div class="column">
 	  		<select id="selectFilterName" class="ui search dropdown">
-				<option value="">Filter By Level Name</option>
+				<option value="">{% if check_keyword %} {{ check_keyword }} {% else %} Filter By Level Name {% endif %}</option>
 				<option value="none">None</option>
 			  	<option value="chromosome_number_variation">chromosome_number_variation</option>
 				<option value="exon_loss_variant">exon_loss_variant</option>
@@ -57,7 +57,7 @@
 		</div>
 		<div class="column">
 	  		<select id="selectFilterNum" class="ui search dropdown">
-	  			<option value="">Filter By Level</option>
+	  			<option value="">{% if order_level %} {{ order_level }} {% else %} Filter By Level {% endif %} </option>
 	  			<option value="none">None</option>
 	  			{% for mag in range(45) %}
 			  		<option value="{{ mag }}">{{ mag }}</option>
@@ -153,7 +153,7 @@
 	</table>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$(".dropdown").dropdown()
+		$(".dropdown").dropdown({"placeholder": "asdf"})
 		$("#filterDiv").show()
 	})
 	$("select").on("change", function(){
