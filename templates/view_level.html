@@ -65,7 +65,16 @@
 			</select>
 		</div>
 	</div>
-	
+	<div class="ui dimmer">
+	    <div class="content">
+	      	<div class="center">
+	        	<h2 class="ui inverted icon header">
+	          	<i class="loading icon"></i>
+	          	Loading
+	        	</h2>
+	      	</div>
+	    </div>
+	</div>
 	<table class="ui selectable celled table">
 		<thead>
 			<tr>
@@ -148,6 +157,7 @@
 		$("#filterDiv").show()
 	})
 	$("select").on("change", function(){
+		$('table').dimmer('show');
 		if($(this).attr("id") == "selectFilterName"){
 			window.location.href = "{{url_for('uploaded_file_levelName', filename=filename,index=0,check_keyword='CHECK_KEYWORD')}}".replace('CHECK_KEYWORD',$(this)[0].value)
 		} else if ($(this).attr("id") == "selectFilterNum"){
