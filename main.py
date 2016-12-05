@@ -256,7 +256,8 @@ def getPubs(rsid):
             flash("Invalid file extension")
             return redirect(request.url)
     pubs = getSnpedia(rsid)["pubs"]
-    return render_template("pubs.html", rsid=rsid, pubs=pubs)
+    
+    return render_template("pubs.html", rsid=rsid, pubs=pubs, )
 
 def readSnps():
     list_files = get_files('all_rsids/')
