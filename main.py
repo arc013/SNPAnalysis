@@ -325,4 +325,4 @@ def readSummaries():
 if __name__ == "__main__":
     readSnps()
     readSummaries()
-    app.run()
+    app.run(threaded=True)

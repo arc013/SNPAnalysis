@@ -130,6 +130,8 @@ def getrsIDfromVCFFile(filename, file_keywords, order_level=46, check_keyword=''
                 multiple_rsID = multi_check
 
             ann = info[7]
+            #print ann
+            #print info[8:]
             info = filterAnnotation(ann)
             #with open('test.txt', 'a') as text:
             #    text.write('\t'.join(info[1:-1]))
@@ -190,6 +192,8 @@ def getrsIDfromVCFFile(filename, file_keywords, order_level=46, check_keyword=''
                     else:
                         chrNums[chrNum].append(alist1)
                         chrNums[chrNum].append(alist2)
+            #print ann
+            #break 
     #print chrNums.keys()
     return chrNums
         
@@ -200,7 +204,11 @@ if __name__ == "__main__":
     #chrNums = getrsIDfromVCFFile(vcf_file, keywords_file, 10)
     #chrNums = getrsIDfromVCFFile(vcf_file, keywords_file, order_level=10, get_pop=True)
     #chrNums = getrsIDfromVCFFile(vcf_file, keywords_file, every=True)
-    chrNums = getrsIDfromVCFFile(vcf_file, keywords_file)
+    chrNums = getrsIDfromVCFFile(vcf_file, keywords_file, every=True)
+    #if len(chrNums.keys()) != 0:
+    #    for tuple in chrNums['22']:
+    #        if tuple[1] == '':
+    #            print tuple
     """
     print Annotation_Impacts.keys()
     print Gene_INFOs.keys()

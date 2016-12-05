@@ -39,7 +39,7 @@
 39. conserved_intergenic_variant
 40. intergenic_region
 41. coding_sequence_variant
-42. non_coding_exon_variant
+42. non_coding_transcript_exon_variant
 43. nc_transcript_variant
 44. gene_variant
 45. chromosome
