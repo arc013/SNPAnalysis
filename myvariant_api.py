@@ -73,17 +73,6 @@ def querey_data():
         if "clinical_info" in hits[evs_i]["evs"]:
             jake["evs_clinical_info"] =  hits[evs_i]["evs"]["clinical_info"]
                 
-                
-        
-
-
-
-
-            
-
-
-
-
     print (jake)
 
 
@@ -96,6 +85,3 @@ querey_data()
 #allele_id,
 
 # clinical_significance,, accession, name, identifiers, 
-
-
-

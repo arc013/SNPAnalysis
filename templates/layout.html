@@ -1,0 +1,73 @@
+<!doctype html>
+<title>180</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='semantic.min.css') }}">
+
+{% for message in get_flashed_messages() %}
+	<div class="ui negative message" style="text-align: center">
+		<i class="close icon"></i>
+		<div class="header">Error</div>
+		<p>{{ message }}</p>
+	</div>
+{% endfor %}
+<div class="ui top attached segment">
+	<h1 style="text-align: center">Upload VCF file to analyze</h1>
+</div>
+
+
+	<div style="text-align: center">
+		<form class="ui form" action="" method=post enctype=multipart/form-data>
+			<div class="field">
+			    <label id="fileLabel" for="file" class="ui icon button">
+			        <i class="file icon"></i>
+			        Select File</label>
+			    <input id="file" name="file" type="file" style="display:none">
+			</div>
+			<div class="field">
+				<div class="ui checkbox">
+				  	<input type="checkbox" name="check">
+				  	<label>Upload using SnpEff</label>
+				</div>
+			</div>
+			<button id="submitButton" class="ui teal button" type="submit">Upload</button>
+		</form>
+	</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='semantic.min.js') }}"></script>
+<script type="text/javascript">
+	$("form").submit(function(){
+		$("#submitButton").addClass("loading")
+	})
+
+
+$(document).on('change', '#file', function() {
+    var input = $(this);
+    if (navigator.appVersion.indexOf("MSIE") != -1) { // IE
+        var label = input.val();
+
+        input.trigger('fileselect', [ 1, label, 0 ]);
+    } else {
+        var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+        var size = input.get(0).files[0].size;
+
+        input.trigger('fileselect', [ numFiles, label, size ]);
+    }
+});
+
+
+$("#file").on("fileselect", function(event, numFiles, label, size) {
+	$('#file').attr('name', 'file'); // allow upload.
+    var postfix = label.substr(label.lastIndexOf('.'));
+    $('#fileLabel').text(label);
+})
+
+$(document).ready(function(){
+	$('.message .close').on('click', function() {
+		$(this).closest('.message').transition('fade');
+	});
+})
+</script>
+{% block body %}
+{% endblock %}
+

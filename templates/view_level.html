@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+{% block body %}
+	<div id="filterDiv" class="ui segment two column very relaxed grid center aligned" style="display: none">
+		<div class="column">
+	  		<select id="selectFilterName" class="ui search dropdown">
+				<option value="">Filter By Level Name</option>
+				<option value="none">None</option>
+			  	<option value="chromosome_number_variation">chromosome_number_variation</option>
+				<option value="exon_loss_variant">exon_loss_variant</option>
+				<option value="frameshift_variant">frameshift_variant</option>
+				<option value="stop_gained">stop_gained</option>
+				<option value="stop_lost">stop_lost</option>
+				<option value="start_lost">start_lost</option>
+				<option value="splice_acceptor_variant">splice_acceptor_variant</option>
+				<option value="splice_donor_variant">splice_donor_variant</option>
+				<option value="rare_amino_acid_variant">rare_amino_acid_variant</option>
+				<option value="1missense_variant">1missense_variant</option>
+				<option value="1inframe_insertion">1inframe_insertion</option>
+				<option value="1disruptive_inframe_insertion">1disruptive_inframe_insertion</option>
+				<option value="1inframe_deletion">1inframe_deletion</option>
+				<option value="1disruptive_inframe_deletion">1disruptive_inframe_deletion</option>
+				<option value="15_prime_UTR_truncation+exon_loss_variant">15_prime_UTR_truncation+exon_loss_variant</option>
+				<option value="13_prime_UTR_truncation+exon_loss">13_prime_UTR_truncation+exon_loss</option>
+				<option value="1splice_branch_variant">1splice_branch_variant</option>
+				<option value="1splice_region_variant">1splice_region_variant</option>
+				<option value="1splice_branch_variant">1splice_branch_variant</option>
+				<option value="2stop_retained_variant">2stop_retained_variant</option>
+				<option value="2initiator_codon_variant">2initiator_codon_variant</option>
+				<option value="2synonymous_variant">2synonymous_variant</option>
+				<option value="2initiator_codon_variant+non_canonical_start_codon">2initiator_codon_variant+non_canonical_start_codon</option>
+				<option value="2stop_retained_variant">2stop_retained_variant</option>
+				<option value="2coding_sequence_variant">2coding_sequence_variant</option>
+				<option value="25_prime_UTR_variant">25_prime_UTR_variant</option>
+				<option value="23_prime_UTR_variant">23_prime_UTR_variant</option>
+				<option value="25_prime_UTR_premature_start_codon_gain_variant">25_prime_UTR_premature_start_codon_gain_variant</option>
+				<option value="2upstream_gene_variant">2upstream_gene_variant</option>
+				<option value="3downstream_gene_variant">3downstream_gene_variant</option>
+				<option value="3TF_binding_site_variant">3TF_binding_site_variant</option>
+				<option value="3regulatory_region_variant">3regulatory_region_variant</option>
+				<option value="3miRNA">3miRNA</option>
+				<option value="3custom">3custom</option>
+				<option value="3sequence_feature">3sequence_feature</option>
+				<option value="3conserved_intron_variant">3conserved_intron_variant</option>
+				<option value="3intron_variant">3intron_variant</option>
+				<option value="3intragenic_variant">3intragenic_variant</option>
+				<option value="3conserved_intergenic_variant">3conserved_intergenic_variant</option>
+				<option value="4intergenic_region">4intergenic_region</option>
+				<option value="4coding_sequence_variant">4coding_sequence_variant</option>
+				<option value="4non_coding_exon_variant">4non_coding_exon_variant</option>
+				<option value="4nc_transcript_variant">4nc_transcript_variant</option>
+				<option value="4gene_variant">4gene_variant</option>
+				<option value="4chromosome">4chromosome</option>
+			</select>
+		</div>
+		<div class="ui vertical divider">
+		    Or
+		</div>
+		<div class="column">
+	  		<select id="selectFilterNum" class="ui search dropdown">
+	  			<option value="">Filter By Level</option>
+	  			<option value="none">None</option>
+	  			{% for mag in range(45) %}
+			  		<option value="{{ mag }}">{{ mag }}</option>
+			  	{% endfor %}
+			</select>
+		</div>
+	</div>
+	
+	<table class="ui selectable celled table">
+		<thead>
+			<tr>
+				<th>RsId</th>
+				<th>EUR_AF</th>
+				<th>SAS_AF</th>
+				<th>AFR_AF</th>
+				<th>AMR_AF</th>
+				<th>EAS_AF</th>
+
+				<!--<th>#CHROM</th>
+				<th>POS</th>
+				<th>ID</th>
+				<th>REF</th>
+				<th>ALT</th>
+				<th>QUAL</th>
+				<th>FILTER</th>
+				<th>INFO</th>
+				<th>FORMAT</th>-->
+			</tr>
+		</thead>
+		<tbody>
+			{% for rsid in rsids %}
+				<tr>
+					<td><a href="{{ url_for('getPubs', rsid=rsid[0]) }}">{{ rsid[0] }}</a></td>
+					<td>{{ rsid[1] }}</td>
+					<td>{{ rsid[2] }}</td>
+					<td>{{ rsid[3] }}</td>
+					<td>{{ rsid[4] }}</td>
+					<td>{{ rsid[5] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<th colspan="9">
+					<div class="ui right floated pagination menu">
+						{% if check_keyword %}
+							{% if canPrev %}
+								<a href=" {{ url_for('uploaded_file'+type, filename=filename, index=index-1, check_keyword=check_keyword) }}" class="icon item">
+									<i class="left chevron icon"></i>
+								</a>
+								{% if canPrev2 %}
+									<a href=" {{ url_for('uploaded_file'+type, filename=filename, index=index-2, check_keyword=check_keyword) }}" class="item">{{ index-1 }}</a>
+								{% endif %}
+								<a href=" {{ url_for('uploaded_file'+type, filename=filename, index=index-1, check_keyword=check_keyword) }}" class="item">{{ index }}</a>
+							{% endif %}
+							<a class="item active">{{ index+1 }}</a>
+							{% if canNext %}
+								<a href=" {{ url_for('uploaded_file'+type, filename=filename, index=index+1, check_keyword=check_keyword) }}" class="item">{{ index+2 }}</a>
+								{% if canNext2 %}
+									<a href=" {{ url_for('uploaded_file'+type, filename=filename, index=index+2, check_keyword=check_keyword) }}" class="item">{{ index+3 }}</a>
+								{% endif %}
+								<a href=" {{ url_for('uploaded_file'+type, filename=filename, index=index+1, check_keyword=check_keyword) }}" class="icon item">
+									<i class="right chevron icon"></i>
+								</a>
+							{% endif %}
+						{% endif %}
+						{% if order_level %}
+							{% if canPrev %}
+								<a href=" {{ url_for('uploaded_file', filename=filename, index=index-1, order_level=order_level) }}" class="icon item">
+									<i class="left chevron icon"></i>
+								</a>
+								{% if canPrev2 %}
+									<a href=" {{ url_for('uploaded_file', filename=filename, index=index-2, order_level=order_level) }}" class="item">{{ index-1 }}</a>
+								{% endif %}
+								<a href=" {{ url_for('uploaded_file', filename=filename, index=index-1, order_level=order_level) }}" class="item">{{ index }}</a>
+							{% endif %}
+							<a class="item active">{{ index+1 }}</a>
+							{% if canNext %}
+								<a href=" {{ url_for('uploaded_file', filename=filename, index=index+1, order_level=order_level) }}" class="item">{{ index+2 }}</a>
+								{% if canNext2 %}
+									<a href=" {{ url_for('uploaded_file', filename=filename, index=index+2, order_level=order_level) }}" class="item">{{ index+3 }}</a>
+								{% endif %}
+								<a href=" {{ url_for('uploaded_file'+type, filename=filename, index=index+1, order_level=order_level) }}" class="icon item">
+									<i class="right chevron icon"></i>
+								</a>
+							{% endif %}
+						{% endif %}
+					</div>
+				</th>
+			</tr>
+		</tfoot>
+	</table>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".dropdown").dropdown()
+		$("#filterDiv").show()
+	})
+	$("select").on("change", function(){
+		if($(this).attr("id") == "selectFilterName"){
+			window.location.href = "{{url_for('uploaded_file_levelName', filename=filename,index=0,check_keyword='CHECK_KEYWORD')}}".replace('CHECK_KEYWORD',$(this)[0].value)
+		} else if ($(this).attr("id") == "selectFilterNum"){
+			window.location.href = "{{url_for('uploaded_file_levelNum', filename=filename,index=0,order_level='ORDER_NUM')}}".replace('ORDER_NUM',$(this)[0].value)
+		}
+	})
+</script>
+{% endblock %}
