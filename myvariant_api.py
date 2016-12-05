@@ -13,6 +13,8 @@ def querey_data(rsid):
     grasp_i = -1
     cadd_i  = -1
     evs_i   = -1
+    if isinstance(hits, dict) :
+        hits = [result.json()["hits"]]
     for i in range (len(hits)):
         if "clinvar" in hits[i]:
             index = i
@@ -39,6 +41,10 @@ def querey_data(rsid):
         jake["allele_id"] = clinvar_object["allele_id"]
     if "rcv" in clinvar_object:
         rcv_array = clinvar_object["rcv"]
+        if isinstance(rcv_array, dict):
+                rcv_array = [clinvar_object["rcv"]]
+
+       # print (rcv_array)
         for i in rcv_array:
             jake["disease_association"]=[]
             condition = {}
@@ -55,6 +61,8 @@ def querey_data(rsid):
     if grasp_i != -1:
         grasp_object = hits[grasp_i]["grasp"]["publication"]
         pmid_array = []
+        if isinstance(grasp_object, dict):
+            grasp_object = [hits[grasp_i]["grasp"]["publication"]]
         for i in grasp_object:
             pmid_array.append(i["pmid"])
         jake["publication_pmid"]=pmid_array
@@ -91,7 +99,7 @@ def querey_data(rsid):
     return jake
 
 
-#querey_data("rs17822931")
+querey_data("rs20551")
     
  # hd38 {start-end: "123-456"}
 # end and start benign, 
