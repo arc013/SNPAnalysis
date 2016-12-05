@@ -2,9 +2,7 @@ import sys
 import requests
 #print ("hi")
 
-def querey_data():
-
-    rs_id  = sys.argv[1]
+def querey_data(rs_id):
     print ("input rs_id is : "+rs_id)
     api_id = "http://myvariant.info/v1/query?q="+rs_id
     result = requests.get(api_id)
@@ -74,9 +72,10 @@ def querey_data():
             jake["evs_clinical_info"] =  hits[evs_i]["evs"]["clinical_info"]
                 
     print (jake)
+    return jake
 
 
-querey_data()
+#querey_data()
     
  # hd38 {start-end: "123-456"}
 # end and start benign, 

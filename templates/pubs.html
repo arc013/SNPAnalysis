@@ -3,19 +3,55 @@
 	<table class="ui selectable celled table">
 		<thead>
 			<tr>
-				<th class="twelve wide">Title</th>
-				<th class="four wide">Link</th>
+				<th>Key</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for key, val in d.items() %}
+				<tr>
+					<td>{{ key }}</td>
+					<td>{{ val }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<table class="ui selectable celled table">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Link</th>\
 			</tr>
 		</thead>
 		<tbody>
 			{% for pub in pubs %}
 				<tr>
-					<td>{{pub.title}}</td>
-					<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/{{pub.id}}?dopt=Abstract">PMID {{pub.id}}<a></td>
+					<td>Publication Link:</td>
+					<td><a href="{{pub}}">PMID {{pub.id}}<a></td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+	{% if assoc != [] %}
+		<table class="ui selectable celled table">
+			<thead>
+				<tr>
+					{% for key, val in assoc[0].items() %}
+						<th>{{ key }}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for disease in assoc %}
+					<tr>
+						{% for key, val in disease.items() %}
+							<td>{{ val }}</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='semantic.min.js') }}"></script>
 {% endblock %}

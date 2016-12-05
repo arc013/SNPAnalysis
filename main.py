@@ -9,6 +9,7 @@ import ast
 import subprocess
 import math
 import parseAnnotation
+import myvariant_api
 
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['vcf'])
@@ -256,8 +257,18 @@ def getPubs(rsid):
             flash("Invalid file extension")
             return redirect(request.url)
     pubs = getSnpedia(rsid)["pubs"]
-    
-    return render_template("pubs.html", rsid=rsid, pubs=pubs, )
+    dictionary = myvariant_api.querey_data("rs17822931")
+    if "evs_clinical_info" in dictionary:
+        pubs = dictionary["evs_clinical_info"].split("|")
+        del dictionary["evs_clinical_info"]
+    assoc = []
+    if "disease_association" in dictionary:
+        assoc = dictionary["disease_association"]
+        for i, disease in enumerate(assoc):
+            if "identifiers" in disease:
+                assoc[i]["identifiers"] = ", ".join([key+"="+val for key, val in disease["identifiers"].items()])
+        del dictionary["disease_association"]
+    return render_template("pubs.html", rsid=rsid, pubs=pubs, d=dictionary, assoc=assoc)
 
 def readSnps():
     list_files = get_files('all_rsids/')
