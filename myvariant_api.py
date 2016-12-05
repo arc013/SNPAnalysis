@@ -2,7 +2,9 @@ import sys
 import requests
 #print ("hi")
 
-def querey_data(rs_id):
+def querey_data(rsid):
+
+    rs_id  = rsid
     print ("input rs_id is : "+rs_id)
     api_id = "http://myvariant.info/v1/query?q="+rs_id
     result = requests.get(api_id)
@@ -17,6 +19,7 @@ def querey_data(rs_id):
         if "grasp" in hits[i]:
             grasp_i = i
         if "cadd" in hits[i]:
+          #  print (" cadd is here")
             cadd_i = i
         if "evs" in hits[i]:
             evs_i = i
@@ -56,9 +59,11 @@ def querey_data(rs_id):
             pmid_array.append(i["pmid"])
         jake["publication_pmid"]=pmid_array
     if cadd_i != -1:
-        if "gene" in hits[cadd_i]:
+        
+        if "gene" in hits[cadd_i]["cadd"]:
+          #  print ("does it print")
             cadd_gene = {}
-            for i in hits[cadd_i]["gene"]:
+            for i in hits[cadd_i]["cadd"]["gene"]:
                 if "feature_id" in i:
                     cadd_gene["feature_id"]=i["feature_id"]
                 if "gene_id" in i:
@@ -74,9 +79,6 @@ def querey_data(rs_id):
     print (jake)
     return jake
 
-
-#querey_data()
-    
  # hd38 {start-end: "123-456"}
 # end and start benign, 
 # variant_id,
