@@ -66,9 +66,9 @@ def parseChromosome(filename, folder):
                     else:
                         individuals[samplename].append((chrPos,data))
     end = time.clock()
-    print "time:",end - start 
+    # print "time:",end - start 
     for key in individuals:
-        print "sample:", key
+        # print "sample:", key
         with open(folder + key+".vcf", "w") as text_file:
 			text_file.write(header)
             values = individuals[key]
@@ -85,4 +85,4 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     folder = sys.argv[2]
     parseChromosome(filename, folder)
-    print getsize(individuals)
+    # print getsize(individuals)

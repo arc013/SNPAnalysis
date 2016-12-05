@@ -89,8 +89,8 @@ def parseOMIMFile(filename):
         dictOMIM[key][0] = list(endlist)
         dictOMIM[key].insert(0,list(startlist))
 
-    #print dictOMIM
-    #print getsize(dictOMIM)
+    ## print dictOMIM
+    ## print getsize(dictOMIM)
     return dictOMIM
 
 #
@@ -136,7 +136,7 @@ def modifiedBinarySearch(alist, item):
     first = 0
     last = len(alist) - 1
     found = False
-    #print 'item:',item
+    ## print 'item:',item
     while first <= last and not found:
         midpoint = (first + last)//2
         if alist[midpoint] == item:
@@ -146,8 +146,8 @@ def modifiedBinarySearch(alist, item):
                 last = midpoint - 1
             else:
                 first = midpoint+1
-		#print alist[midpoint]
-    #print alist[midpoint-1]
+		## print alist[midpoint]
+    ## print alist[midpoint-1]
     #making sure the return references and index that cannot be references
     if midpoint == 0:
         return 0
@@ -162,8 +162,8 @@ def modifiedBinarySearch(alist, item):
 def binarySearchOMIM(dictOMIM, data):
     chroms = {}
     for chrNum in data:
-        #print chrNum
-        #print dictOMIM.keys()
+        ## print chrNum
+        ## print dictOMIM.keys()
         listpos = data[chrNum]
         if 'chr' not in chrNum:
             chrNum = 'chr'+chrNum
@@ -171,10 +171,10 @@ def binarySearchOMIM(dictOMIM, data):
         startPositions = info[0]
         endPositions = info[1]
         geneDict = info[2]
-        #print geneDict 
+        ## print geneDict 
         genestoPos = {}
         for pos in listpos:
-            #print startPositions
+            ## print startPositions
             index = modifiedBinarySearch(startPositions, pos)
             checkEnd = endPositions[index]
             checkEnd2 = endPositions[index-1]
@@ -192,7 +192,7 @@ def binarySearchOMIM(dictOMIM, data):
                     else:
                         break
             #break
-        #print genestoPos
+        ## print genestoPos
         geneids = {}
         #adding hte counts of the genes to the geneids
         for key in genestoPos:
@@ -204,8 +204,8 @@ def binarySearchOMIM(dictOMIM, data):
                         geneids[item[0]]+=1
         # sorting the genes based on the occurance
         sorted_x = sorted(geneids.items(), key=operator.itemgetter(1), reverse=True)
-        #print sorted_x[0:20]
-        #print genestoPos
+        ## print sorted_x[0:20]
+        ## print genestoPos
         
         chroms[chrNum] = sorted_x
     return chroms
@@ -224,7 +224,7 @@ def getPositionsfromVCFFile(filename):
                 chrNums[chrNum] = [position]
             else:
                 chrNums[chrNum].append(position)
-    #print chrNums.keys()
+    ## print chrNums.keys()
     return chrNums
 
 
@@ -235,21 +235,21 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     chrfile = sys.argv[2]
     dictOMIM = parseOMIMFile(filename)
-    #print dictOMIM['chr22'][0]
+    ## print dictOMIM['chr22'][0]
     
     #testlist = [100,200,300,300,300,305,306,400,500]
-    #print modifiedBinarySearch(testlist, 11122151)
+    ## print modifiedBinarySearch(testlist, 11122151)
     #""" 
     data = getPositionsfromVCFFile(chrfile)
     sorted_genes = binarySearchOMIM(dictOMIM, data)
     #"""
     #adding this now 
     sorted_genes = sorted_genes['chr22']
-    #print sorted_genes
+    ## print sorted_genes
     #"""
     dictGeneIDtoPheno = createGeneIDtoPheno(filename)
     phenotypes = findPhenotypeFromOMIM(dictGeneIDtoPheno, sorted_genes, 20)
-    #print len(phenotypes)
+    ## print len(phenotypes)
     for pheno in phenotypes:
-        print pheno
+        # print pheno
     #"""

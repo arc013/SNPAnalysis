@@ -50,11 +50,8 @@ def getPubs(soup):
 	pubs = [{"id": pubId, "title": pubsResult[pubId]["title"].encode('ascii','ignore')} for pubId in pubIds]
 	return pubs
 
-print(__name__)
+# print(__name__)
 if __name__ == "__main__":
-	if len(sys.argv) == 1:
-		print("You forgot to pass in a gene id...")
-	print("Main")
 	geneId = sys.argv[1]
 	r = urllib.urlopen('http://www.snpedia.com/index.php/'+geneId).read()
 	soup = BeautifulSoup(r, "html.parser")

@@ -19,17 +19,17 @@ def addHeader(orig_file, directory):
     
     for file in filenames:
         
-        #print file
+        ## print file
         f = open(file, 'r')
         temp = f.read()
         sample_name = file.split('/')[-1].rstrip('.vcf')
-        print sample_name
+        # print sample_name
         f.close()
-        #print output
+        ## print output
         keep_top = output.split('\n')[:-2]
-        #print keep_top
+        ## print keep_top
         new_last_line = '#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t' + sample_name + '\n'
-        #print new_last_line
+        ## print new_last_line
         keep_top.append(new_last_line)
         f = open(file, 'w')
         f.write('\n'.join(keep_top))
