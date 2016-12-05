@@ -87,10 +87,14 @@ def uploaded_file(filename, index):
             if request.form.getlist("check") and request.form.getlist('check')[0] == "on":
                 toRun = ["java",'-Xmx4g',"-jar", "snpEff/snpEff.jar", "GRCh38.86", "uploads/" + file.filename, ">", "uploads/" + file.filename.rsplit('.', 1)[0] + ".annotation.vcf"]
                 os.system(" ".join(toRun))
+                if os.path.isfile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf"):
+                    return redirect(url_for('uploaded_file_levelName', filename=filename, check_keyword="all_levels", index=1))
             return redirect(url_for('uploaded_file', filename=filename, index=1))
         else:
             flash("Invalid file extension")
             return redirect(request.url)
+    if os.path.isfile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf"):
+        return redirect(url_for('uploaded_file_levelName', filename=filename, check_keyword="all_levels", index=1))
     chrNums = getrsIDfromVCFFile("uploads/"+filename)
     rsidsDict = {}
     for chromosome, rsids in chrNums.items():
@@ -126,6 +130,8 @@ def uploaded_file_levelName(filename, check_keyword, index):
             if request.form.getlist("check") and request.form.getlist('check')[0] == "on":
                 toRun = ["java",'-Xmx4g',"-jar", "snpEff/snpEff.jar", "GRCh38.86", "uploads/" + file.filename, ">", "uploads/" + file.filename.rsplit('.', 1)[0] + ".annotation.vcf"]
                 os.system(" ".join(toRun))
+                if os.path.isfile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf"):
+                    return redirect(url_for('uploaded_file_levelName', filename=filename, check_keyword="all_levels", index=1))
             return redirect(url_for('uploaded_file', filename=filename, index=1))
         else:
             flash("Invalid file extension")
@@ -201,6 +207,8 @@ def uploaded_file_levelNum(filename, order_level, index):
             if request.form.getlist("check") and request.form.getlist('check')[0] == "on":
                 toRun = ["java",'-Xmx4g',"-jar", "snpEff/snpEff.jar", "GRCh38.86", "uploads/" + file.filename, ">", "uploads/" + file.filename.rsplit('.', 1)[0] + ".annotation.vcf"]
                 os.system(" ".join(toRun))
+                if os.path.isfile("uploads/" + filename.rsplit('.', 1)[0] + ".annotation.vcf"):
+                    return redirect(url_for('uploaded_file_levelName', filename=filename, check_keyword="all_levels", index=1))
             return redirect(url_for('uploaded_file', filename=filename, index=1))
         else:
             flash("Invalid file extension")
